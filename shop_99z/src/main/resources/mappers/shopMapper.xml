@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop_99z.mappers.shopMapper">
+   
+	<!-- 1차 카테고리별 상품 리스트 -->
+	<select id="list_1" resultType="com.shop_99z.domain.GoodsViewVO">
+	select
+	    g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsInfo, gdsImg, gdsDate, g.gdsImg, g.gdsThumbImg
+	        from goods g
+	            inner join goods_category c
+	                on g.cateCode = c.cateCode           
+	            where g.cateCode = #{cateCode} or c.cateCodeRef = #{cateCodeRef}
+	</select>
+	
+	<!-- 2차 카테고리 상품 리스트 -->
+	<select id="list_2" resultType="com.shop_99z.domain.GoodsViewVO">
+	select
+	    g.gdsNum, g.gdsName, g.cateCode, c.cateCodeRef, c.cateName, gdsPrice, gdsStock, gdsInfo, gdsImg, gdsDate, g.gdsImg, g.gdsThumbImg
+	        from goods g
+	            inner join goods_category c
+	                on g.cateCode = c.cateCode           
+	            where g.cateCode = #{cateCode}
+	</select>
+	
+	<!-- 상품평 작성 -->
+	<insert id="registReply">
+	insert into reply (gdsNum, memId, repNum, repCon)
+		values (#{gdsNum}, #{memId}, reply_seq.nextval, #{repCon})
+	</insert>
+	
+	<!-- 상품평 리스트 -->
+	<select id="replyList" resultType="com.shop_99z.domain.ReplyListVO">
+	select r.gdsNum, r.memId, r.repNum, r.repCon, r.repDate, m.memName
+		from reply r
+			inner join member m
+				on r.memId = m.memId
+			where gdsNum = #{gdsNum}
+	</select>
+
+	<!-- 상품평 삭제 -->
+	<delete id="deleteReply">
+		delete reply
+			where repNum = #{repNum}
+				and memId = #{memId}
+	</delete>
+	
+	<!-- 상품평 삭제-작성자 확인 -->
+	<select id="replyMemIdCheck" resultType="String">
+		select memId
+			from reply
+				where repNum =#{repNum}
+	</select>
+	
+	<!-- 상품평 수정 -->
+	<update id="modifyReply">
+		update reply
+			set repCon = #{repCon}
+			where repNum = #{repNum}
+				and memId = #{memId}
+	</update>
+
+	<!-- 장바구니 담기 -->
+	<insert id="addCart">
+	   insert into cart (cartNum, memId, gdsNum, cartStock)
+	       values (cart_seq.nextval, #{memId}, #{gdsNum}, #{cartStock})
+	</insert>
+	
+	<!-- 장바구니 리스트 -->
+	<select id="cartList" resultType="com.shop_99z.domain.CartListVO">
+	   select
+	       row_number() over(order by c.cartNum desc) as num,
+	       c.cartNum, c.memId, c.gdsNum, c.cartStock, c.addDate,
+	       g.gdsName, g.gdsPrice, g.gdsThumbImg
+	   from cart c
+	       inner join goods g
+	           on c.gdsNum = g.gdsNum   
+	       where c.memId = #{memId}
+	</select>
+	
+	<!-- 장바구니 삭제 -->
+	<delete id="deleteCart">
+	   delete cart
+	       where cartNum = #{cartNum}
+	           and memId = #{memId}
+	</delete>
+	
+	<!-- 주문 정보 -->
+	<insert id="orderInfo">
+	   insert into ordering(orderId, memId, orderRec, memAddr1, memAddr2, memAddr3, orderPhone, amount)
+	       values(#{orderId}, #{memId}, #{orderRec}, #{memAddr1}, #{memAddr2}, #{memAddr3}, #{orderPhone}, #{amount})
+	</insert>
+	   
+	<!-- 주문 상세 정보 --> 
+	<insert id="orderInfo_Details">
+	   insert into order_details(orderDetailsNum, orderId, gdsNum, cartStock)
+	       select order_details_seq.nextval, #{orderId}, gdsNum, cartStock
+	           from cart   
+	</insert>  
+
+	<!-- 장바구니 비우기 -->
+	<delete id="cartAllDelete">
+	   delete cart
+	       where memId = #{memId}
+	</delete>
+	
+	<!-- 특정 유저의 주문 목록 -->
+	<select id="orderList" resultType="com.shop_99z.domain.OrderVO">
+		select orderId, memId, orderRec, memAddr1, memAddr2, memAddr3, orderPhone, amount, orderDate, delivery
+			from ordering
+		       where memId = #{memId}
+	</select>
+	
+	<!-- 특정 주문 목록 -->
+	<select id="orderView" resultType="com.shop_99z.domain.OrderListVO">
+	   select
+	       o.orderId, o.memId, o.orderRec, o.memAddr1, o.memAddr2, o.memAddr3, o.orderPhone, o.amount, o.orderDate, o.delivery,
+	       d.orderDetailsNum, d.gdsNum, d.cartStock,
+	       g.gdsName, g.gdsThumbImg, g.gdsPrice
+	   from ordering o
+	           inner join order_details d
+	               on o.orderId = d.orderId
+	           inner join goods g
+	               on d.gdsNum = g.gdsNum
+	       where o.memId = #{memId}
+	           and o.orderId = #{orderId}	  
+	</select>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shop_99z.mappers.homeMapper">
+    
+<!-- <select id="goodslist" resultType="com.shop_99z.domain.GoodsVO">
+	select gdsNum, gdsName, gdsPrice, gdsDate, gdsThumbImg
+		from goods 
+			order by gdsDate desc
+				
+</select> -->
+
+<select id="goodslist" resultType="com.shop_99z.domain.GoodsVO">
+SELECT gdsNum, gdsName, gdsPrice, gdsDate, gdsThumbImg
+	FROM (SELECT gdsNum, gdsName, gdsPrice, gdsDate, gdsThumbImg
+			FROM goods
+				ORDER BY gdsDate DESC)
+	WHERE rownum between 1 and 10
+</select>
+
+</mapper>
