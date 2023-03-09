@@ -24,12 +24,13 @@
 
 ## 개발환경
 
-- Java, JDK11
-- Spring, JSP, BootStrap
-- Eclipse 2021-12 (4.22.0)
-- Tomcat 9.0
-- Oracle 11g, Ojdbc6, MySQL
-- Github, Notion, Slack
+|            |                                         |
+| :--------: | --------------------------------------- |
+|  **Main**  | Java                                    |
+|   **FE**   | HTML, CSS, JavaScript                   |
+|   **BE**   | Spring, MySql, Oracle, JSP              |
+|  **Tool**  | Github, Eclipse, DBeaver, Notion, Slack |
+| **Server** | Apache Tomcat                           |
 
 &nbsp;
 &nbsp;
