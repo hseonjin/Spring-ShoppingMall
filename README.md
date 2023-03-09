@@ -1,4 +1,4 @@
-# Spring-ShoppingMall
+# Spring-ShoppingMall Project
 
 ![1](https://user-images.githubusercontent.com/126320580/223390212-9aff849d-ebf2-4eca-b6a4-32bb1648d211.png)
 
