@@ -39,7 +39,7 @@
     </tr>
     <tr>
         <td>BE</td>
-        <td>Github, Eclipse, DBeaver, Notion, Slack</td>
+        <td>Spring</td>
     </tr>
     <tr>
         <td>TOOL</td>
