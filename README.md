@@ -39,7 +39,7 @@
     </tr>
     <tr>
         <td>BE</td>
-        <td>Spring</td>
+        <td>Spring, MySql</td>
     </tr>
     <tr>
         <td>TOOL</td>
