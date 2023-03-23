@@ -12,7 +12,7 @@
 
 <h3>💡 프로젝트 주제 💡</h3>
 <p>Spring을 통해 여성 의류 쇼핑몰 제작</p>
-<h5>Spring, JSP, Spring Security, MySQL 등 기술의 이론적 학습<br/>
+<h5>Spring, JPA, Spring Security, MySQL, JSP 등 기술의 이론적 학습<br/>
 사용되는 기술에 대한 개념과 동작원리를 제대로 이해하기 위한 쇼핑몰 웹사이트 구현</h5>
 
 &nbsp;
